@@ -34,7 +34,9 @@ public class StockerGetterController {
 
   // GET STOCK DETAILS BY NAME, DATE AND TYPE
   @PostMapping("/getbynameanddateandtype")
-  @ApiOperation(value = "get the suggestion using name and suggestion created date and suggestion type (BUY or SELL)")
+  @ApiOperation(
+      value =
+          "get the suggestion using name and suggestion created date and suggestion type (BUY or SELL)")
   public BuySellSuggest getBuySellSuggestByNameDateAndType(@RequestBody String body) {
     JsonObject jsonObject = new Gson().fromJson(body, JsonObject.class);
     String stockName = jsonObject.get("stockName").getAsString();

@@ -1,6 +1,5 @@
 package com.stocklookup.configuration;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -19,25 +18,27 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @EnableSwagger2
 public class SwaggerConfiguration extends WebMvcConfigurationSupport {
   @Bean
-  public Docket productApi() {
+  public Docket theStockLookUpApi() {
     return new Docket(DocumentationType.SWAGGER_2)
         .select()
         .apis(RequestHandlerSelectors.basePackage("com.stocklookup.controller"))
         .paths(regex("/v1/thestocker/.*"))
+        .build()
+        .apiInfo(metaData());
+  }
+
+  private ApiInfo metaData() {
+    return new ApiInfoBuilder()
+        .title("The StockLookUP API")
+        .description("\" A Lookup api for stock suggestion\"")
+        .version("1.0.0")
+        .license("MIT License")
+        .licenseUrl("https://opensource.org/licenses/MIT")
+        .contact(new Contact("Hanlak", "inprogress", "inprogress"))
         .build();
   }
 
-    public ApiInfo metaData() {
-        return new ApiInfoBuilder()
-                .title("Spring Boot REST API")
-                .description("\"Spring Boot REST API for Online Store\"")
-                .version("1.0.0")
-                .license("MIT License")
-                .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0\"")
-                .contact(new Contact("Hanlak","inprogress","inprogress"))
-                .build();
-    }
-    @Override
+  @Override
   protected void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry
         .addResourceHandler("swagger-ui.html")
@@ -46,4 +47,4 @@ public class SwaggerConfiguration extends WebMvcConfigurationSupport {
         .addResourceHandler("/webjars/**")
         .addResourceLocations("classpath:/META-INF/resources/webjars/");
   }
-    }
+}
