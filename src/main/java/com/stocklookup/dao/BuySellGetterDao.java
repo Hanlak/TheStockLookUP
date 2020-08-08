@@ -5,10 +5,16 @@ import com.stocklookup.models.BuySellSuggest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class BuySellGetterDao {
+  private JdbcTemplate jdbcTemplate;
+  public BuySellGetterDao(JdbcTemplate jdbcTemplate){
+    this.jdbcTemplate = jdbcTemplate;
+  }
   private static final String SQL_FIND_BUY_SELL_SUGGEST =
       "select * from ssbs where stockName = ? and createdAt = ?";
   private static final String SQL_FIND_BUY_SELL_SUGGEST_WITH_TYPE =
@@ -16,7 +22,7 @@ public class BuySellGetterDao {
   private static final String SQL_GET_ALL = "select * from ssbs";
   private static final String SQL_GET_ALL_SUGG_BY_NAME = "select * from ssbs where stockName = ?";
   private static final String SQL_GET_ALL_BY_TYPE = "select * from ssbs where type = ?";
-  @Autowired JdbcTemplate jdbcTemplate;
+  //@Autowired JdbcTemplate jdbcTemplate;
 
   // TODO: ALL GET SCENARIOS HERE
   // Search the suggestion by name and date
