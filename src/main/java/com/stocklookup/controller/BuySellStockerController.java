@@ -6,6 +6,7 @@ import com.stocklookup.exception.NoResultSetException;
 import com.stocklookup.exception.TypeValidationException;
 import com.stocklookup.models.BuySellSuggest;
 import com.stocklookup.util.SuggestionValidator;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class BuySellStockerController {
 
   // To ADD the BUY SUGGESTION
   @PostMapping("/buysell/addsuggestion")
+  @ApiOperation(value = "add a suggestion")
   @ResponseBody()
   public int addBuyPrediction(@Valid @RequestBody BuySellSuggest buySellSuggest) {
     // Since its a buy Suggesstion we have to ensure that the Sell values stays empty and type is

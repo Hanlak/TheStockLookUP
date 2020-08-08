@@ -4,6 +4,7 @@ import com.stocklookup.dao.BuySellUpdateDao;
 import com.stocklookup.exception.TypeValidationException;
 import com.stocklookup.models.BuySellSuggest;
 import com.stocklookup.util.SuggestionValidator;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,8 @@ import javax.validation.Valid;
 public class StockerUpdateController {
   @Autowired BuySellUpdateDao buySellUpdateDao;
 
-  @PostMapping("/updateSellSuggestion")
+  @PostMapping("/updateBuySellSuggestion")
+  @ApiOperation(value = "update the suggestion values except stock name,date and type")
   public int updateSellSuggestion(@Valid @RequestBody BuySellSuggest buySellSuggest) {
     // TODO:: DISABLE STOCK NAME CHANGE AND DATE AND TYPE CHANGE IN THE EDIT PAGE
     buySellSuggest = SuggestionValidator.suggestionValidator(buySellSuggest);

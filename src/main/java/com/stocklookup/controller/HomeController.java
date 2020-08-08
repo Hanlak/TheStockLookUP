@@ -8,7 +8,7 @@ public class HomeController {
     return "welcome to the TheStocker api";
   }
 
-  @GetMapping("/about")
+  @GetMapping("/v1/thestocker/about")
   public String about() {
     return "Its an hanlak Product";
   }

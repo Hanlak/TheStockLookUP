@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.stocklookup.dao.BuySellGetterDao;
 import com.stocklookup.exception.NoResultSetException;
 import com.stocklookup.models.BuySellSuggest;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class StockerGetterController {
 
   // GET STOCK DETAILS BY NAME AND DATE
   @PostMapping("/getbynameanddate")
+  @ApiOperation(value = "get the suggestion using name and suggestion created date")
   public BuySellSuggest getBuySellSuggestByNameAndDate(@RequestBody String body) {
     JsonObject jsonObject = new Gson().fromJson(body, JsonObject.class);
     String stockName = jsonObject.get("stockName").getAsString();
@@ -32,6 +34,7 @@ public class StockerGetterController {
 
   // GET STOCK DETAILS BY NAME, DATE AND TYPE
   @PostMapping("/getbynameanddateandtype")
+  @ApiOperation(value = "get the suggestion using name and suggestion created date and suggestion type (BUY or SELL)")
   public BuySellSuggest getBuySellSuggestByNameDateAndType(@RequestBody String body) {
     JsonObject jsonObject = new Gson().fromJson(body, JsonObject.class);
     String stockName = jsonObject.get("stockName").getAsString();
@@ -49,6 +52,7 @@ public class StockerGetterController {
 
   // GET ALL STOCKS
   @GetMapping("/getallsuggestions")
+  @ApiOperation(value = "get list of all available suggestions")
   public List<BuySellSuggest> getALLSuggestion() {
     List<BuySellSuggest> suggestList = buySellGetterDao.getAllSuggestion();
     if (suggestList == null)
@@ -59,6 +63,7 @@ public class StockerGetterController {
 
   // Get ALL Stocks BY Name
   @GetMapping("/getallsuggestionsbyname/{name}")
+  @ApiOperation(value = "get list of all available suggestions using name of the stock")
   public List<BuySellSuggest> getALLSuggestion(@PathVariable("name") String stockname) {
     List<BuySellSuggest> suggestList = buySellGetterDao.getALLSuggestionByStockName(stockname);
     if (suggestList == null)
@@ -69,6 +74,7 @@ public class StockerGetterController {
 
   // Get ALL STOCKS BY TYPE
   @GetMapping("/getallsuggesstionsbytype/{type}")
+  @ApiOperation(value = "get list of all available suggestions using type of order BUY or SELL")
   public List<BuySellSuggest> getALLSuggestionByType(@PathVariable("type") String type) {
     List<BuySellSuggest> suggestList = buySellGetterDao.getAllSuggestionsByType(type);
     if (suggestList == null)
