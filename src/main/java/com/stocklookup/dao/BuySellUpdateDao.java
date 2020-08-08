@@ -3,18 +3,12 @@ package com.stocklookup.dao;
 import com.stocklookup.models.BuySellSuggest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public class BuySellUpdateDao {
 
-  private JdbcTemplate jdbcTemplate;
-  public BuySellUpdateDao(JdbcTemplate jdbcTemplate){
-    this.jdbcTemplate = jdbcTemplate;
-  }
   private static final String SQL_UPDATE_BUY_SELL_SUGGEST =
       "update ssbs set stockName = ?, buyAt = ?,stopLoss =?,sellAt = ?,targetPrice=?,createdAt =?,type = ? where stockName = ? and createdAt = ? and type =?";
-  //@Autowired JdbcTemplate jdbcTemplate;
+  @Autowired JdbcTemplate jdbcTemplate;
 
   // TODO: ALL UPDATE  SCENARIOS HERE
   // TO update the suggestion in case of mistakes or changes
