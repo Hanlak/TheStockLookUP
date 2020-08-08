@@ -4,7 +4,10 @@ import com.stocklookup.exception.SuggestionCreationException;
 import com.stocklookup.models.BuySellSuggest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class BuySellDao {
 
   private static final String SQL_INSERT_BUY_SELL_SUGGEST =
