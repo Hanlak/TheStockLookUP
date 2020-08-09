@@ -47,7 +47,7 @@ public class StockerConfiguration {
 //     * <p>the script file schema-sql.sql will execute here
 //     */
 //    // SCHEMA INIT
-//    Resource intischema = new ClassPathResource("/scripts/mysql-schema.sql");
+//    Resource intischema = new ClassPathResource("/scripts/schema.sql");
 //    DatabasePopulator databasePopulator = new ResourceDatabasePopulator(intischema);
 //    DatabasePopulatorUtils.execute(databasePopulator, dataSource);
 //    return dataSource;
