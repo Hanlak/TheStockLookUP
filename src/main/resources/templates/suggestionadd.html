@@ -90,75 +90,154 @@
                 buyForm.style.display = "block";
             }
     }
-
     </script>
+
+    <style>
+        body{
+        font-family: Lato;
+
+        }
+        .page-header{
+        width: 485px;
+        height: 71px;
+        font-family: 'Lato';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 48px;
+        line-height: 58px;
+        letter-spacing: 0.095em;
+        color: #092879;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        }
+        h4{
+        font-family: Lato;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 29px;
+        /* identical to box height */
+        letter-spacing: 0.04em;
+        color: #DF7B7B;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        }
+        #buyForm{
+        font-family: Lato;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 22px;
+        /* identical to box height */
+        letter-spacing: 0.095em;
+        color: #092879;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        }
+        #sellForm{
+        font-family: Lato;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 22px;
+        /* identical to box height */
+        letter-spacing: 0.095em;
+        color: #092879;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        }
+        .choose{
+        font-family: Lato;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 23px;
+        /* identical to box height */
+        letter-spacing: 0.08em;
+        color: #6D2F7C;
+        }
+        .form-control{
+             width:60%;
+        }
+        p{
+        font-family: Lato;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 22px;
+        /* identical to box height */
+        letter-spacing: 0.095em;
+        color: #9756E9;
+        }
+    </style>
 </head>
 <body>
-<div>
-    <h2>Suggestion AddOn</h2>
+<div class="container-fluid">
+<div class="page-header center">
+    <h2>The Stock Look Up </h2>
+</div>
+<div class="container-fluid">
+    <h4>Add Suggestion</h4>
+</div>
+<div class="container">
     <p id ="info" th:text="${ info }"></p>
-    <label for="types">Choose a Suggestion type:</label>
-    <select id="types" name="types" onchange="showForm()">
+    <div class="choose form-group">
+    <label for="types">choose a suggestion type:</label>
+    <select id="types" class="form-control" name="types" onchange="showForm()">
         <option value="NONE">NONE</option>
         <option value="BUY">BUY</option>
         <option value="SELL">SELL</option>
     </select>
+    </div>
     <div id="buyForm" style="display:none">
-        <div>
-            <label for="stockName">StockName:</label>
+        <div class="form-group">
+            <label for="stockName">Stock Name:</label>
             <div>
-                <input id="stockName" name="stockName" placeholder="Enter Stock Name" type="text">
+                <input id="stockName" class="form-control" name="stockName" placeholder="Enter Stock Name" type="text">
             </div>
         </div>
-        <div>
-            <label for="buyAt1">Buy Suggestion Range from : </label>
+        <div class="form-group">
+            <label for="buyAt1">Buy Range from : </label>
             <div>
-                <input id="buyAt1" name="buyAt1" placeholder="Enter Buy from" type="text">
+                <input id="buyAt1" class="form-control" name="buyAt1" placeholder="Enter Buy from" type="text">
             </div>
         </div>
-        <div>
-            <label for="buyAt2">Buy Suggestion Rage to : </label>
+        <div class="form-group">
+            <label for="buyAt2">Buy Rage to : </label>
             <div>
-                <input id="buyAt2" name="buyAt2" placeholder="Enter Buy to " type="text">
+                <input id="buyAt2" class="form-control" name="buyAt2" placeholder="Enter Buy to " type="text">
             </div>
         </div>
-        <div>
+        <div class="form-group">
             <label for="stopLoss">Stop Loss : </label>
             <div>
-                <input id="stopLoss" name="stopLoss" placeholder="Enter Stop Loss" type="text">
+                <input id="stopLoss" class="form-control" name="stopLoss" placeholder="Enter Stop Loss" type="text">
             </div>
         </div>
-        <div>
+        <div class="form-group">
             <label for="targetPrice">Target Price : </label>
             <div>
-                <input id="targetPrice" name="targetPrice" placeholder="Enter Target Price" type="text">
+                <input id="targetPrice" class="form-control" name="targetPrice" placeholder="Enter Target Price" type="text">
             </div>
         </div>
-        <div>
-            <div>
-                <button onclick="formSubmit()" type="submit">Submit</button>
-            </div>
+        <div class="form-group">
+        <button class="btn btn-success" onclick="formSubmit()" type="submit">Submit</button>
         </div>
     </div>
     <div id="sellForm" style="display:none">
-        <div>
+        <div class="form-group">
             <label for="stockName1">StockName:</label>
             <div>
-                <input id="stockName1" name="stockName" placeholder="Enter Stock Name" type="text">
+                <input id="stockName1" class="form-control" name="stockName" placeholder="Enter Stock Name" type="text">
             </div>
         </div>
-        <div>
+        <div class="form-group">
             <label for="sellAt">Sell Suggestion </label>
             <div>
-                <input id="sellAt" name="sellAt" placeholder="Enter Sell Price " type="text">
+                <input id="sellAt" class="form-control" name="sellAt" placeholder="Enter Sell Price " type="text">
             </div>
         </div>
-        <div>
-            <div>
-                <button onclick="formSubmit()" type="submit">Submit</button>
-            </div>
+        <div class="form-group">
+        <button class="btn btn-success" onclick="formSubmit()" type="submit">Submit</button>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>
