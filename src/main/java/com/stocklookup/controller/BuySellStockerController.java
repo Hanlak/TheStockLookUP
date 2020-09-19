@@ -2,55 +2,84 @@ package com.stocklookup.controller;
 
 import com.stocklookup.dao.BuySellDao;
 import com.stocklookup.dao.BuySellGetterDao;
-import com.stocklookup.exception.NoResultSetException;
-import com.stocklookup.exception.TypeValidationException;
 import com.stocklookup.models.BuySellSuggest;
 import com.stocklookup.util.SuggestionValidator;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
 import java.time.LocalDate;
 
-@RestController
-@RequestMapping("/v1/thestocker")
+@Controller
+@RequestMapping("/admin/thestocker")
 public class BuySellStockerController {
 
   /**
    * Sample Payload:
    *
-   * <p>SELL: { "stockName":"test", "buyAt":"0.00", "stopLoss":"0.00", "sellAt":"122.00",
-   * "targetPrice":"0.000","createdAt":"2020-08-10", "type":"SELL" }
+   * <p>SELL: { "stockName":"test", "buyAt":"0", "stopLoss":"0", "sellAt":"122",
+   * "targetPrice":"0","createdAt":"2020-08-10", "type":"SELL" }
    *
-   * <p>BUY: { "stockName":"test", "buyAt":"1122", "stopLoss":"0.5", "sellAt":"0.00",
+   * <p>BUY: { "stockName":"test", "buyAt":"1122", "stopLoss":"220", "sellAt":"0",
    * "targetPrice":"1444", "createdAt":"2020-08-10", "type":"BUY" }
    */
   @Autowired BuySellDao buySellDao;
 
   @Autowired BuySellGetterDao buySellGetterDao;
 
+  @GetMapping("/")
+  public String getSuggestionView(Model model) {
+    return "suggestionadd";
+  }
   // To ADD the BUY SUGGESTION
-  @PostMapping("/buysell/addsuggestion")
-  @ApiOperation(value = "add a suggestion")
-  @ResponseBody()
-  public int addBuyPrediction(@Valid @RequestBody BuySellSuggest buySellSuggest) {
+  @PostMapping("/addsuggestion")
+  public String addBuyPrediction(
+      Model model,
+      @RequestParam("stockName") String stockName,
+      @RequestParam("buyAt") String buyAt,
+      @RequestParam("stopLoss") String stopLoss,
+      @RequestParam("sellAt") String sellAt,
+      @RequestParam("targetPrice") String targetPrice,
+      @RequestParam("type") String type) {
     // Since its a buy Suggesstion we have to ensure that the Sell values stays empty and type is
     // BUY
+    BuySellSuggest buySellSuggest = new BuySellSuggest();
+    buySellSuggest.setStockName(stockName);
+    buySellSuggest.setSellAt(sellAt);
+    buySellSuggest.setStopLoss(stopLoss);
+    buySellSuggest.setType(type);
+    buySellSuggest.setTargetPrice(targetPrice);
+    buySellSuggest.setBuyAt(buyAt);
+    buySellSuggest.setCreatedAt(LocalDate.now().toString());
     buySellSuggest = SuggestionValidator.suggestionValidator(buySellSuggest);
-    if (buySellSuggest == null)
-      throw new TypeValidationException("INVALID SUGGESTION TYPE. PLEASE USE VALID TYPE(SELL|BUY)");
+    if (buySellSuggest == null) {
+      model.addAttribute("info", "input not valid. please give valid inputs");
+      System.out.println("model null -1");
+      return "suggestionadd";
+    }
     BuySellSuggest suggestionAlreadyExist =
         buySellGetterDao.getBuySellSuggestByNameAndCreateDate(
             buySellSuggest.getStockName(), buySellSuggest.getCreatedAt());
-    if (suggestionAlreadyExist != null) throw new NoResultSetException("suggestion already exists");
-    else {
+    if (suggestionAlreadyExist != null) {
+      model.addAttribute("info", "suggestion already exists");
+      System.out.println("model exits -2");
+      return "suggestionadd";
+    } else {
       // BY Default we will be assigning the date when creating the suggestion
       buySellSuggest.setCreatedAt(LocalDate.now().toString());
-      return buySellDao.save(buySellSuggest)
-          ? HttpStatus.OK.value()
-          : HttpStatus.INTERNAL_SERVER_ERROR.value();
+      boolean check = buySellDao.save(buySellSuggest);
+      if (check) {
+        model.addAttribute("info", "suggestion addon successful. Thanks You :) ");
+        System.out.println("model update done -3");
+      } else {
+        model.addAttribute("info", "suggestion addon failed. Please Try :( ");
+        System.out.println("please try  -4");
+      }
+      return "suggestionadd";
     }
   }
 }

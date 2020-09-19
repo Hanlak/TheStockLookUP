@@ -5,11 +5,9 @@ import com.stocklookup.models.BuySellSuggest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public class BuySellGetterDao {
   private static final String SQL_FIND_BUY_SELL_SUGGEST =
       "select * from ssbs where stockName = ? and createdAt = ?";

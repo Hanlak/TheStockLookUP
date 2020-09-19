@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Stock Suggestions LookUP</title>
+    <script src="js/custom.js"></script>
+    <script>
+    function post_to_url(path, params, method) {
+    method = method || "POST";
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+    document.body.appendChild(form);
+    form.submit();
+    form.reset();
+}
+    function formSubmit(){
+    var type = document.getElementById('types').value;
+    if(type === "SELL"){
+        var stockName = document.getElementById('stockName1').value;
+        var sellAt = document.getElementById('sellAt').value;
+        if((stockName == null || stockName =="")){
+        alert("stock Name is Empty");
+        }else if((sellAt == null || sellAt =="")){
+        alert("sell price is Empty");
+        }else{
+        var buyAt = "0<->0";
+        var targetPrice = "0";
+        var stopLoss = "0";
+        post_to_url('/admin/thestocker/addsuggestion', { stockName:stockName,buyAt:buyAt,stopLoss:stopLoss,sellAt:sellAt,targetPrice:targetPrice,type:type}, 'POST');
+        }
+    }else if(type === "BUY"){
+    var stockName = document.getElementById('stockName').value;
+    var buyAt1 = document.getElementById('buyAt1').value;
+    var buyAt2 = document.getElementById('buyAt2').value;
+    var stopLoss = document.getElementById('stopLoss').value;
+    var targetPrice = document.getElementById('targetPrice').value;
+    if((stockName == null || stockName =="")){
+        alert("stock Name is Empty");
+        }else if((buyAt1 == null || buyAt1 =="")){
+        alert("buy range from is Empty");
+        }
+        else if((buyAt2 == null || buyAt2 =="")){
+        alert("buy range to is Empty");
+        }else if((stopLoss == null || stopLoss =="")){
+        alert("stop loss  is Empty");
+        }else if((targetPrice == null || targetPrice =="")){
+        alert("target price  is Empty");
+        }else{
+        var sellAt = "0";
+        var buyAt = buyAt1+"<->"+buyAt2;
+        post_to_url('/admin/thestocker/addsuggestion', { stockName:stockName,buyAt:buyAt,stopLoss:stopLoss,sellAt:sellAt,targetPrice:targetPrice,type:type}, 'POST');
+        }
+    }
+    }
+
+    function showForm() {
+
+            var x = document.getElementById("types").value;
+            var sellForm = document.getElementById("sellForm");
+            var buyForm = document.getElementById("buyForm");
+             if(x === "NONE"){
+                sellForm.style.display = "none";
+                buyForm.style.display = "none";
+             }
+            else if (x === "SELL") {
+                document.getElementById('info').innerHTML = '';
+                sellForm.style.display = "block";
+                buyForm.style.display = "none";
+            }
+            else if (x === "BUY"){
+            document.getElementById('info').innerHTML = '';
+                sellForm.style.display = "none";
+                buyForm.style.display = "block";
+            }
+    }
+
+    </script>
+</head>
+<body>
+<div>
+    <h2>Suggestion AddOn</h2>
+    <p id ="info" th:text="${ info }"></p>
+    <label for="types">Choose a Suggestion type:</label>
+    <select id="types" name="types" onchange="showForm()">
+        <option value="NONE">NONE</option>
+        <option value="BUY">BUY</option>
+        <option value="SELL">SELL</option>
+    </select>
+    <div id="buyForm" style="display:none">
+        <div>
+            <label for="stockName">StockName:</label>
+            <div>
+                <input id="stockName" name="stockName" placeholder="Enter Stock Name" type="text">
+            </div>
+        </div>
+        <div>
+            <label for="buyAt1">Buy Suggestion Range from : </label>
+            <div>
+                <input id="buyAt1" name="buyAt1" placeholder="Enter Buy from" type="text">
+            </div>
+        </div>
+        <div>
+            <label for="buyAt2">Buy Suggestion Rage to : </label>
+            <div>
+                <input id="buyAt2" name="buyAt2" placeholder="Enter Buy to " type="text">
+            </div>
+        </div>
+        <div>
+            <label for="stopLoss">Stop Loss : </label>
+            <div>
+                <input id="stopLoss" name="stopLoss" placeholder="Enter Stop Loss" type="text">
+            </div>
+        </div>
+        <div>
+            <label for="targetPrice">Target Price : </label>
+            <div>
+                <input id="targetPrice" name="targetPrice" placeholder="Enter Target Price" type="text">
+            </div>
+        </div>
+        <div>
+            <div>
+                <button onclick="formSubmit()" type="submit">Submit</button>
+            </div>
+        </div>
+    </div>
+    <div id="sellForm" style="display:none">
+        <div>
+            <label for="stockName1">StockName:</label>
+            <div>
+                <input id="stockName1" name="stockName" placeholder="Enter Stock Name" type="text">
+            </div>
+        </div>
+        <div>
+            <label for="sellAt">Sell Suggestion </label>
+            <div>
+                <input id="sellAt" name="sellAt" placeholder="Enter Sell Price " type="text">
+            </div>
+        </div>
+        <div>
+            <div>
+                <button onclick="formSubmit()" type="submit">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

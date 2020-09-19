@@ -4,7 +4,6 @@ import com.stocklookup.dao.BuySellDao;
 import com.stocklookup.dao.BuySellGetterDao;
 import com.stocklookup.dao.BuySellUpdateDao;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -17,23 +16,22 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan("com.stocklookup")
 public class StockerConfiguration {
-//  @Bean
-//  public BuySellDao buySellDao() {
-//    return new BuySellDao();
-//  }
-//
-//  @Bean
-//  public BuySellGetterDao buySellGetterDao() {
-//    return new BuySellGetterDao();
-//  }
-//
-//  @Bean
-//  public BuySellUpdateDao buySellUpdateDao() {
-//    return new BuySellUpdateDao();
-//  }
-//
+  @Bean
+  public BuySellDao buySellDao() {
+    return new BuySellDao();
+  }
+
+  @Bean
+  public BuySellGetterDao buySellGetterDao() {
+    return new BuySellGetterDao();
+  }
+
+  @Bean
+  public BuySellUpdateDao buySellUpdateDao() {
+    return new BuySellUpdateDao();
+  }
+// To run in local uncomment the following code::
 //  @Bean
 //  public DataSource dataSource() {
 //    DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -47,7 +45,7 @@ public class StockerConfiguration {
 //     * <p>the script file schema-sql.sql will execute here
 //     */
 //    // SCHEMA INIT
-//    Resource intischema = new ClassPathResource("/scripts/schema.sql");
+//    Resource intischema = new ClassPathResource("schema.sql");
 //    DatabasePopulator databasePopulator = new ResourceDatabasePopulator(intischema);
 //    DatabasePopulatorUtils.execute(databasePopulator, dataSource);
 //    return dataSource;
