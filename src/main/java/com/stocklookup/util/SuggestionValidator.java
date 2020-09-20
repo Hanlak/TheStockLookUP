@@ -12,7 +12,7 @@ public class SuggestionValidator {
       try {
         Integer check = Integer.parseInt(buySellSuggest.getTargetPrice());
         Integer check1 = Integer.parseInt(buySellSuggest.getStopLoss());
-        String[] arrcheck = buySellSuggest.getBuyAt().split("<->");
+        String[] arrcheck = buySellSuggest.getBuyAt().split("><");
         Integer check2 = Integer.parseInt(arrcheck[0]);
         Integer check3 = Integer.parseInt(arrcheck[1]);
       } catch (Exception e) {

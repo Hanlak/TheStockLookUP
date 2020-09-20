@@ -49,7 +49,7 @@
         }else if((sellAt == null || sellAt =="")){
         alert("sell price is Empty");
         }else{
-        var buyAt = "0<->0";
+        var buyAt = "0><0";
         var targetPrice = "0";
         var stopLoss = "0";
         post_to_url('/admin/thestocker/addsuggestion', { stockName:stockName,buyAt:buyAt,stopLoss:stopLoss,sellAt:sellAt,targetPrice:targetPrice,type:type,authToken:authToken}, 'POST');
