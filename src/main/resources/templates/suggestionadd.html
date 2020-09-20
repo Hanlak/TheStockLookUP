@@ -10,6 +10,11 @@
     <title>Stock Suggestions LookUP</title>
     <script src="js/custom.js"></script>
     <script>
+<!--    Avoids the form submission on refresh-->
+        if ( window.history.replaceState ) {
+            window.history.replaceState( "", "", "/admin/thestocker/" );
+         }
+<!--        ***-->
     function post_to_url(path, params, method) {
     method = method || "POST";
     var form = document.createElement("form");

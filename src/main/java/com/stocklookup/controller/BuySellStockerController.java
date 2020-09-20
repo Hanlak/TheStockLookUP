@@ -73,7 +73,6 @@ public class BuySellStockerController {
             buySellSuggest.getStockName(), buySellSuggest.getCreatedAt());
     if (suggestionAlreadyExist != null) {
       model.addAttribute("info", "suggestion already exists");
-      System.out.println("model exits -2");
       return "suggestionadd";
     } else {
       // BY Default we will be assigning the date when creating the suggestion
@@ -84,7 +83,6 @@ public class BuySellStockerController {
         System.out.println("model update done -3");
       } else {
         model.addAttribute("info", "suggestion addon failed. Please Try :( ");
-        System.out.println("please try  -4");
       }
       return "suggestionadd";
     }
