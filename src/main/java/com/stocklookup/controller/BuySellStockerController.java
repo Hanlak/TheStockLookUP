@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/admin/thestocker")
@@ -44,7 +45,14 @@ public class BuySellStockerController {
       @RequestParam("stopLoss") String stopLoss,
       @RequestParam("sellAt") String sellAt,
       @RequestParam("targetPrice") String targetPrice,
-      @RequestParam("type") String type) {
+      @RequestParam("type") String type,
+      @RequestParam("authToken") String authToken) {
+
+    //Check the admin user is authorized or not
+    if(!"stocker".equals(authToken)){
+      model.addAttribute("info", "you are not authorized to add the suggestion. please contact the admin");
+      return "suggestionadd";
+    }
     // Since its a buy Suggesstion we have to ensure that the Sell values stays empty and type is
     // BUY
     BuySellSuggest buySellSuggest = new BuySellSuggest();
@@ -58,7 +66,6 @@ public class BuySellStockerController {
     buySellSuggest = SuggestionValidator.suggestionValidator(buySellSuggest);
     if (buySellSuggest == null) {
       model.addAttribute("info", "input not valid. please give valid inputs");
-      System.out.println("model null -1");
       return "suggestionadd";
     }
     BuySellSuggest suggestionAlreadyExist =

@@ -35,7 +35,11 @@
     if(type === "SELL"){
         var stockName = document.getElementById('stockName1').value;
         var sellAt = document.getElementById('sellAt').value;
-        if((stockName == null || stockName =="")){
+        var authToken = document.getElementById('authToken1').value;
+        if((authToken == null || authToken == "")){
+         alert("auth token is Empty");
+         }
+        else if((stockName == null || stockName =="")){
         alert("stock Name is Empty");
         }else if((sellAt == null || sellAt =="")){
         alert("sell price is Empty");
@@ -43,7 +47,7 @@
         var buyAt = "0<->0";
         var targetPrice = "0";
         var stopLoss = "0";
-        post_to_url('/admin/thestocker/addsuggestion', { stockName:stockName,buyAt:buyAt,stopLoss:stopLoss,sellAt:sellAt,targetPrice:targetPrice,type:type}, 'POST');
+        post_to_url('/admin/thestocker/addsuggestion', { stockName:stockName,buyAt:buyAt,stopLoss:stopLoss,sellAt:sellAt,targetPrice:targetPrice,type:type,authToken:authToken}, 'POST');
         }
     }else if(type === "BUY"){
     var stockName = document.getElementById('stockName').value;
@@ -51,7 +55,11 @@
     var buyAt2 = document.getElementById('buyAt2').value;
     var stopLoss = document.getElementById('stopLoss').value;
     var targetPrice = document.getElementById('targetPrice').value;
-    if((stockName == null || stockName =="")){
+    var authToken = document.getElementById('authToken').value;
+        if((authToken == null || authToken == "")){
+        alert("auth token is Empty");
+        }
+        else if((stockName == null || stockName =="")){
         alert("stock Name is Empty");
         }else if((buyAt1 == null || buyAt1 =="")){
         alert("buy range from is Empty");
@@ -65,7 +73,7 @@
         }else{
         var sellAt = "0";
         var buyAt = buyAt1+"<->"+buyAt2;
-        post_to_url('/admin/thestocker/addsuggestion', { stockName:stockName,buyAt:buyAt,stopLoss:stopLoss,sellAt:sellAt,targetPrice:targetPrice,type:type}, 'POST');
+        post_to_url('/admin/thestocker/addsuggestion', { stockName:stockName,buyAt:buyAt,stopLoss:stopLoss,sellAt:sellAt,targetPrice:targetPrice,type:type,authToken:authToken}, 'POST');
         }
     }
     }
@@ -187,6 +195,12 @@
     </div>
     <div id="buyForm" style="display:none">
         <div class="form-group">
+            <label for="authToken">Auth Token:</label>
+            <div>
+                <input id="authToken" class="form-control" name="authToken" placeholder="Enter Auth Token" type="password">
+            </div>
+        </div>
+        <div class="form-group">
             <label for="stockName">Stock Name:</label>
             <div>
                 <input id="stockName" class="form-control" name="stockName" placeholder="Enter Stock Name" type="text">
@@ -221,6 +235,12 @@
         </div>
     </div>
     <div id="sellForm" style="display:none">
+        <div class="form-group">
+            <label for="authToken1">Auth Token:</label>
+            <div>
+                <input id="authToken1" class="form-control" name="authToken" placeholder="Enter Auth Token" type="password">
+            </div>
+        </div>
         <div class="form-group">
             <label for="stockName1">StockName:</label>
             <div>
