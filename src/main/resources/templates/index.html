@@ -75,10 +75,19 @@ function reset_date_native() {
     date_input.type = 'date';
   }
 }
+function hideFilters(){
+    var content = document.getElementById("collapse");
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+}
 </script>
 <style>
         body{
         font-family: 'Lato';
+        cursor: pointer;
         }
 
         .page-header{
@@ -170,7 +179,24 @@ letter-spacing: 0.095em;
 color: rgba(7, 116, 96, 0.83);
 mix-blend-mode: normal;
 }
+.collapsible {
+font-family: Lato;
+font-style: normal;
+font-weight: 600;
+font-size: 18px;
+line-height: 25px;
+/* identical to box height */
+letter-spacing: 0.095em;
+color: white;
+cursor: pointer;
+background: rgba(226, 76, 66, 0.72);
+box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+border-radius: 7px;
+}
 
+.active, .collapsible:hover {
+  background-color: #E24C42;
+}
 </style>
 </head>
 <body>
@@ -181,8 +207,9 @@ mix-blend-mode: normal;
             </h2>
     <h5>Search By Name, Creation Date and Type </h5>
 </div>
+    <button type="button" class="collapsible" onclick="hideFilters()">Search Filters</button>
 <div class="container">
-        <div class="form-inline">
+        <div id ="collapse" class="form-inline" style = "display:none;">
             <div class="form-group">
                 <label for="stockName">stock name</label>
                 <input aria-label="Search" class="form-control" id="stockName" name="stockName" placeholder="StockName" type="search">
@@ -213,7 +240,7 @@ mix-blend-mode: normal;
 <div class="result">
     <div th:if="${not #lists.isEmpty(suggestList)}">
         <div class="container-fluid">
-            <table class="table table-striped tabled-bordered">
+            <table class="table table-striped tabled-bordered table-hover">
                 <thead>
                 <tr>
                     <th>Stock Name</th>
