@@ -80,7 +80,6 @@ public class BuySellStockerController {
       boolean check = buySellDao.save(buySellSuggest);
       if (check) {
         model.addAttribute("info", "suggestion addon successful. Thanks You :) ");
-        System.out.println("model update done -3");
       } else {
         model.addAttribute("info", "suggestion addon failed. Please Try :( ");
       }

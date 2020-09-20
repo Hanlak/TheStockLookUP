@@ -2,6 +2,7 @@ package com.stocklookup.controller;
 
 import com.stocklookup.dao.BuySellGetterDao;
 import com.stocklookup.models.BuySellSuggest;
+import com.stocklookup.util.BuySellDecidor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +36,10 @@ public class StockerGetterController {
           String.format("STOCK:: %s NOT FOUND WITHIN THIS DATE:: %s ", stockName, createdAt));
       return "index";
     }
-    model.addAttribute("suggestList", Arrays.asList(buySellSuggest));
+    String decidor = BuySellDecidor.buySellDecide(Arrays.asList(buySellSuggest));
+    List<BuySellSuggest> buySellSuggestList = BuySellDecidor.buySellAdjustor(Arrays.asList(buySellSuggest));
+    model.addAttribute("decide",decidor);
+    model.addAttribute("suggestList", buySellSuggestList);
     return "index";
   }
 
@@ -56,7 +60,10 @@ public class StockerGetterController {
               stockName, createdAt, type));
       return "index";
     }
-    model.addAttribute("suggestList", Arrays.asList(buySellSuggest));
+    String decidor = BuySellDecidor.buySellDecide(Arrays.asList(buySellSuggest));
+    List<BuySellSuggest> buySellSuggestList = BuySellDecidor.buySellAdjustor(Arrays.asList(buySellSuggest));
+    model.addAttribute("decide",decidor);
+    model.addAttribute("suggestList", buySellSuggestList);
     return "index";
   }
 
@@ -64,7 +71,10 @@ public class StockerGetterController {
   @GetMapping("/getallsuggestions")
   public String getALLSuggestion(Model model) {
     List<BuySellSuggest> suggestList = buySellGetterDao.getAllSuggestion();
-    model.addAttribute("suggestList", suggestList);
+    List<BuySellSuggest> buySellSuggestList = BuySellDecidor.buySellAdjustor(suggestList);
+    model.addAttribute("suggestList", buySellSuggestList);
+    String decidor = BuySellDecidor.buySellDecide(suggestList);
+    model.addAttribute("decide",decidor);
     if (suggestList == null)
       model.addAttribute("error", "SUGGESTION ARE EMPTY. PlEASE ADD SUGGESTIONS BEFORE QUERYING");
     return "index";
@@ -79,7 +89,10 @@ public class StockerGetterController {
           "error", String.format("NO SUGGESTIONS FOUND FOR THE STOCK:: %s", stockname));
       return "index";
     }
-    model.addAttribute("suggestList", suggestList);
+    List<BuySellSuggest> buySellSuggestList = BuySellDecidor.buySellAdjustor(suggestList);
+    model.addAttribute("suggestList", buySellSuggestList);
+    String decidor = BuySellDecidor.buySellDecide(suggestList);
+    model.addAttribute("decide",decidor);
     return "index";
   }
 
@@ -92,7 +105,10 @@ public class StockerGetterController {
           "error", String.format("NO SUGGESTIONS FOUND FOR THE SUGGESTION TYPE:: %s", type));
       return "index";
     }
-    model.addAttribute("suggestList", suggestList);
+    List<BuySellSuggest> buySellSuggestList = BuySellDecidor.buySellAdjustor(suggestList);
+    model.addAttribute("suggestList", buySellSuggestList);
+    String decidor = BuySellDecidor.buySellDecide(suggestList);
+    model.addAttribute("decide",decidor);
     return "index";
   }
 }

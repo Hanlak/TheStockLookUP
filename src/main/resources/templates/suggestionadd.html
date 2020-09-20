@@ -77,7 +77,7 @@
         alert("target price  is Empty");
         }else{
         var sellAt = "0";
-        var buyAt = buyAt1+"<->"+buyAt2;
+        var buyAt = buyAt1+"><"+buyAt2;
         post_to_url('/admin/thestocker/addsuggestion', { stockName:stockName,buyAt:buyAt,stopLoss:stopLoss,sellAt:sellAt,targetPrice:targetPrice,type:type,authToken:authToken}, 'POST');
         }
     }
@@ -214,25 +214,25 @@
         <div class="form-group">
             <label for="buyAt1">Buy Range from : </label>
             <div>
-                <input id="buyAt1" class="form-control" name="buyAt1" placeholder="Enter Buy from" type="text">
+                <input id="buyAt1" class="form-control" name="buyAt1" placeholder="Enter Buy from - 39 " type="text">
             </div>
         </div>
         <div class="form-group">
             <label for="buyAt2">Buy Rage to : </label>
             <div>
-                <input id="buyAt2" class="form-control" name="buyAt2" placeholder="Enter Buy to " type="text">
+                <input id="buyAt2" class="form-control" name="buyAt2" placeholder="Enter Buy to - 14 " type="text">
             </div>
         </div>
         <div class="form-group">
             <label for="stopLoss">Stop Loss : </label>
             <div>
-                <input id="stopLoss" class="form-control" name="stopLoss" placeholder="Enter Stop Loss" type="text">
+                <input id="stopLoss" class="form-control" name="stopLoss" placeholder="Enter Stop Loss - 0" type="text">
             </div>
         </div>
         <div class="form-group">
             <label for="targetPrice">Target Price : </label>
             <div>
-                <input id="targetPrice" class="form-control" name="targetPrice" placeholder="Enter Target Price" type="text">
+                <input id="targetPrice" class="form-control" name="targetPrice" placeholder="Enter Target Price - 0" type="text">
             </div>
         </div>
         <div class="form-group">
@@ -255,7 +255,7 @@
         <div class="form-group">
             <label for="sellAt">Sell Suggestion </label>
             <div>
-                <input id="sellAt" class="form-control" name="sellAt" placeholder="Enter Sell Price " type="text">
+                <input id="sellAt" class="form-control" name="sellAt" placeholder="Enter Sell Price - 112" type="text">
             </div>
         </div>
         <div class="form-group">

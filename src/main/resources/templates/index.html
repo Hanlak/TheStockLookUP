@@ -182,20 +182,20 @@ mix-blend-mode: normal;
 .collapsible {
 font-family: Lato;
 font-style: normal;
-font-weight: 600;
-font-size: 18px;
-line-height: 25px;
+font-weight: 00;
+font-size: 16px;
+line-height: 22px;
 /* identical to box height */
 letter-spacing: 0.095em;
 color: white;
 cursor: pointer;
-background: rgba(226, 76, 66, 0.72);
+background: #3390FE;
 box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
 border-radius: 7px;
 }
 
 .active, .collapsible:hover {
-  background-color: #E24C42;
+  background-color: rgba(226, 76, 66, 0.72);;
 }
 </style>
 </head>
@@ -209,7 +209,7 @@ border-radius: 7px;
 </div>
     <button type="button" class="collapsible" onclick="hideFilters()">Search Filters</button>
 <div class="container">
-        <div id ="collapse" class="form-inline" style = "display:none;">
+        <div id ="collapse" class="form-inline" style="display:none;">
             <div class="form-group">
                 <label for="stockName">stock name</label>
                 <input aria-label="Search" class="form-control" id="stockName" name="stockName" placeholder="StockName" type="search">
@@ -240,14 +240,36 @@ border-radius: 7px;
 <div class="result">
     <div th:if="${not #lists.isEmpty(suggestList)}">
         <div class="container-fluid">
+            <div class="container-fluid" th:if="${decide} == 'BUY'">
+                <table class="table table-striped tabled-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Stock Name</th>
+                        <th>Buy At</th>
+                        <th>Stop Loss</th>
+                        <th>Target Price</th>
+                        <th>Created On</th>
+                        <th>Type</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="suggest : ${suggestList}">
+                        <td th:text="${suggest.stockName}">Stock Name</td>
+                        <td th:text="${suggest.buyAt}">Buy At</td>
+                        <td th:text="${suggest.stopLoss}">Stop Loss</td>
+                        <td th:text="${suggest.targetPrice}">Target Price</td>
+                        <td th:text="${suggest.createdAt}">Created On</td>
+                        <td th:text="${suggest.type}">type</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="container-fluid" th:if="${decide} == 'SELL'">
             <table class="table table-striped tabled-bordered table-hover">
                 <thead>
                 <tr>
                     <th>Stock Name</th>
-                    <th>Buy At</th>
-                    <th>Stop Loss</th>
                     <th>Sell In</th>
-                    <th>Target Price</th>
                     <th>Created On</th>
                     <th>Type</th>
                 </tr>
@@ -255,15 +277,39 @@ border-radius: 7px;
                 <tbody>
                 <tr th:each="suggest : ${suggestList}">
                     <td th:text="${suggest.stockName}">Stock Name</td>
-                    <td th:text="${suggest.buyAt}">Buy At</td>
-                    <td th:text="${suggest.stopLoss}">Stop Loss</td>
                     <td th:text="${suggest.sellAt}">Sell In</td>
-                    <td th:text="${suggest.targetPrice}">Target Price</td>
                     <td th:text="${suggest.createdAt}">Created On</td>
                     <td th:text="${suggest.type}">type</td>
                 </tr>
                 </tbody>
             </table>
+        </div>
+            <div class="container-fluid" th:if="${decide} == 'BUYSELL'">
+                <table class="table table-striped tabled-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Stock Name</th>
+                        <th>Buy At</th>
+                        <th>Stop Loss</th>
+                        <th>Sell In</th>
+                        <th>Target Price</th>
+                        <th>Created On</th>
+                        <th>Type</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="suggest : ${suggestList}">
+                        <td th:text="${suggest.stockName}">Stock Name</td>
+                        <td th:text="${suggest.buyAt}">Buy At</td>
+                        <td th:text="${suggest.stopLoss}">Stop Loss</td>
+                        <td th:text="${suggest.sellAt}">Sell In</td>
+                        <td th:text="${suggest.targetPrice}">Target Price</td>
+                        <td th:text="${suggest.createdAt}">Created On</td>
+                        <td th:text="${suggest.type}">type</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div th:if="${ #lists.isEmpty(suggestList)}">
