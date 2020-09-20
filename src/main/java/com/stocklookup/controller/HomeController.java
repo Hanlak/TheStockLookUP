@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
   @GetMapping("/")
   public String home(Model model) {
-    model.addAttribute("error", "Click below link to get All the suggestions");
+    model.addAttribute("error", "Click below to get All suggestions");
     model.addAttribute("link", "/v1/thestocker/getter/getallsuggestions");
     model.addAttribute("home", "home");
     return "index";

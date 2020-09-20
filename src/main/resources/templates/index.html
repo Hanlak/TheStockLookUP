@@ -48,9 +48,11 @@ function mainFormSubmit(){
     else if((stockName !=null && stockName !="") && (createdAt!=null && createdAt!="") && type != 'NONE'){
     post_to_url('/v1/thestocker/getter/getbynameanddateandtype', { stockName:stockName,createdAt:createdAt, type:type }, 'POST');
     }else if((stockName == null || stockName =="") && (createdAt != null || createdAt!="") && type == 'NONE'){
+    reset_date_native()
     alert("please choose date with stockname and type or just stockname.");
     }
     else if((stockName == null || stockName =="") && (createdAt != null || createdAt!="") && type != 'NONE'){
+    reset_date_native()
     alert("please choose date with stockname and type or just stockname.");
     }
 }
@@ -59,6 +61,19 @@ function homeFormSubmit() {
 }
 function formSubmit() {
     document.forms["myForm"].submit();
+}
+function reset_date_native() {
+  var date_input = document.getElementById('createdAt');
+
+  //erase the input value
+  date_input.value = '';
+
+  //prevent error on older browsers (aka IE8)
+  if (date_input.type === 'date') {
+    //update the input content (visually)
+    date_input.type = 'text';
+    date_input.type = 'date';
+  }
 }
 </script>
 <style>
@@ -100,6 +115,10 @@ function formSubmit() {
         text-decoration: none;
         color: inherit;
          }
+         a:hover{
+         text-decoration: none;
+         color:blue;
+         }
   hr {
   display: block;
   margin-top: 0.5em;
@@ -123,7 +142,7 @@ font-family: Lato;
 font-style: normal;
 text-align:center;
 font-weight: 800;
-font-size: 18px;
+font-size: 13px;
 line-height: 22px;
 /* identical to box height */
 letter-spacing: 0.095em;
@@ -131,9 +150,10 @@ color: #EF5252;
 }
 #getAll{
 font-family: Lato;
+text-align:center;
 font-style: normal;
 font-weight: 800;
-font-size: 18px;
+font-size: 16px;
 line-height: 22px;
 /* identical to box height */
 letter-spacing: 0.095em;
@@ -211,11 +231,13 @@ mix-blend-mode: normal;
     </div>
     <div th:if="${ #lists.isEmpty(suggestList)}">
         <div class="container">
-            <h2 class ="error" th:text="${error}"></h2>
+            <div class = "error">
+            <h3 th:text="${error}"></h3>
             <div th:if="${home} == 'home'">
                 <form action="/v1/thestocker/getter/getallsuggestions" method="GET" name="myForm">
                     <a id ="getAll" onclick="formSubmit()"> Get All Suggestions</a>
                 </form>
+            </div>
             </div>
             <div th:if="${home} != 'home'">
                 <h2 class ="error"> Suggestions Not Available</h2>
