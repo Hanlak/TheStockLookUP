@@ -14,7 +14,7 @@ public class BuySellGetterDao {
   private static final String SQL_FIND_BUY_SELL_SUGGEST_WITH_TYPE =
       "select * from ssbs where stockName = ? and createdAt = ? and type = ?";
   private static final String SQL_GET_ALL = "select * from ssbs";
-  private static final String SQL_GET_ALL_SUGG_BY_NAME = "select * from ssbs where stockName = ?";
+  private static final String SQL_GET_ALL_SUGG_BY_NAME = "select * from ssbs where stockName like CONCAT( '%',?,'%')";
   private static final String SQL_GET_ALL_BY_TYPE = "select * from ssbs where type = ?";
   @Autowired JdbcTemplate jdbcTemplate;
 
