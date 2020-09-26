@@ -11,6 +11,7 @@ public class HomeController {
     model.addAttribute("error", "Click below to get All suggestions");
     model.addAttribute("link", "/v1/thestocker/getter/getallsuggestions");
     model.addAttribute("home", "home");
+    model.addAttribute("decide","NONE");
     return "index";
   }
 

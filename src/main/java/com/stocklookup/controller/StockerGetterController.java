@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/v1/thestocker/getter")
@@ -36,10 +38,10 @@ public class StockerGetterController {
           String.format("STOCK:: %s NOT FOUND WITHIN THIS DATE:: %s ", stockName, createdAt));
       return "index";
     }
+    //DECIDES WHETHER IT CONTAINS SELL OR BUY OR BOTH OBJECTS
     String decidor = BuySellDecidor.buySellDecide(Arrays.asList(buySellSuggest));
-    List<BuySellSuggest> buySellSuggestList = BuySellDecidor.buySellAdjustor(Arrays.asList(buySellSuggest));
-    model.addAttribute("decide",decidor);
-    model.addAttribute("suggestList", buySellSuggestList);
+    //creating a model based on the list
+    model = BuySellDecidor.createModel(model,Arrays.asList(buySellSuggest),decidor);
     return "index";
   }
 
@@ -61,9 +63,7 @@ public class StockerGetterController {
       return "index";
     }
     String decidor = BuySellDecidor.buySellDecide(Arrays.asList(buySellSuggest));
-    List<BuySellSuggest> buySellSuggestList = BuySellDecidor.buySellAdjustor(Arrays.asList(buySellSuggest));
-    model.addAttribute("decide",decidor);
-    model.addAttribute("suggestList", buySellSuggestList);
+    model = BuySellDecidor.createModel(model,Arrays.asList(buySellSuggest),decidor);
     return "index";
   }
 
@@ -71,11 +71,9 @@ public class StockerGetterController {
   @GetMapping("/getallsuggestions")
   public String getALLSuggestion(Model model) {
     List<BuySellSuggest> suggestList = buySellGetterDao.getAllSuggestion();
-    List<BuySellSuggest> buySellSuggestList = BuySellDecidor.buySellAdjustor(suggestList);
-    model.addAttribute("suggestList", buySellSuggestList);
     String decidor = BuySellDecidor.buySellDecide(suggestList);
-    model.addAttribute("decide",decidor);
-    if (suggestList == null)
+    model = BuySellDecidor.createModel(model,suggestList,decidor);
+    if (suggestList == null || suggestList.size()==0)
       model.addAttribute("error", "SUGGESTION ARE EMPTY. PlEASE ADD SUGGESTIONS BEFORE QUERYING");
     return "index";
   }
@@ -89,10 +87,8 @@ public class StockerGetterController {
           "error", String.format("NO SUGGESTIONS FOUND FOR THE STOCK:: %s", stockname));
       return "index";
     }
-    List<BuySellSuggest> buySellSuggestList = BuySellDecidor.buySellAdjustor(suggestList);
-    model.addAttribute("suggestList", buySellSuggestList);
     String decidor = BuySellDecidor.buySellDecide(suggestList);
-    model.addAttribute("decide",decidor);
+    model = BuySellDecidor.createModel(model,suggestList,decidor);
     return "index";
   }
 
@@ -105,10 +101,8 @@ public class StockerGetterController {
           "error", String.format("NO SUGGESTIONS FOUND FOR THE SUGGESTION TYPE:: %s", type));
       return "index";
     }
-    List<BuySellSuggest> buySellSuggestList = BuySellDecidor.buySellAdjustor(suggestList);
-    model.addAttribute("suggestList", buySellSuggestList);
     String decidor = BuySellDecidor.buySellDecide(suggestList);
-    model.addAttribute("decide",decidor);
+    model = BuySellDecidor.createModel(model,suggestList,decidor);
     return "index";
   }
 }

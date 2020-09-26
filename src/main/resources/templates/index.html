@@ -83,6 +83,22 @@ function hideFilters(){
       content.style.display = "block";
     }
 }
+function hideselltable(){
+    var content = document.getElementById("sellcollapse");
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+}
+function hidebuytable(){
+    var content = document.getElementById("buycollapse");
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+}
 </script>
 <style>
         body{
@@ -140,8 +156,8 @@ function hideFilters(){
 .result th {
   font-family: Lato;
   letter-spacing: 0.095em;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   text-align: left;
   background-color: #076BA3;
   color: white;
@@ -149,9 +165,9 @@ function hideFilters(){
 .result tr{
 font-family: Lato;
 font-style: normal;
-font-weight: 600;
-font-size: 19px;
-line-height: 23px;
+font-weight: 300;
+font-size: 14px;
+line-height: 18px;
 letter-spacing: 0.095em;
 color: rgba(7, 54, 108, 0.83);
 mix-blend-mode: normal;
@@ -197,6 +213,27 @@ border-radius: 7px;
 .active, .collapsible:hover {
   background-color: rgba(226, 76, 66, 0.72);;
 }
+.buyButton{
+background: inherit;
+font-family: Lato;
+font-style: normal;
+width: 100%;
+color: #092879;
+border: none;
+text-align: left;
+}
+.sellButton{
+background: inherit;
+font-family: Lato;
+font-style: normal;
+width: 100%;
+color: #092879;
+border: none;
+text-align: left;
+}
+button:focus {
+    outline: none;
+}
 </style>
 </head>
 <body>
@@ -237,10 +274,11 @@ border-radius: 7px;
 </div>
 <hr>
 <!-- BEGGING OF RESULT VIEW -->
+<div class = 'container-fluid'>
 <div class="result">
-    <div th:if="${not #lists.isEmpty(suggestList)}">
-        <div class="container-fluid">
-            <div class="container-fluid" th:if="${decide} == 'BUY'">
+    <div class = "buy" th:if="${not #lists.isEmpty(buyList)}">
+        <button type="button" class="buyButton" onclick="hidebuytable()"><h4>BUY: </h4></button>
+        <div id = "buycollapse">
                 <table class="table table-striped tabled-bordered table-hover">
                     <thead>
                     <tr>
@@ -253,7 +291,7 @@ border-radius: 7px;
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="suggest : ${suggestList}">
+                    <tr th:each="suggest : ${buyList}">
                         <td th:text="${suggest.stockName}">Stock Name</td>
                         <td th:text="${suggest.buyAt}">Buy At</td>
                         <td th:text="${suggest.stopLoss}">Stop Loss</td>
@@ -263,9 +301,12 @@ border-radius: 7px;
                     </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="container-fluid" th:if="${decide} == 'SELL'">
-            <table class="table table-striped tabled-bordered table-hover">
+        </div>
+    </div>
+    <div class = "sell" th:if="${not #lists.isEmpty(sellList)}">
+        <button type="button" class="sellButton" onclick="hideselltable()"><h4>SELL</h4> </button>
+        <div id ="sellcollapse">
+        <table class="table table-striped tabled-bordered table-hover">
                 <thead>
                 <tr>
                     <th>Stock Name</th>
@@ -275,7 +316,7 @@ border-radius: 7px;
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="suggest : ${suggestList}">
+                <tr th:each="suggest : ${sellList}">
                     <td th:text="${suggest.stockName}">Stock Name</td>
                     <td th:text="${suggest.sellAt}">Sell In</td>
                     <td th:text="${suggest.createdAt}">Created On</td>
@@ -284,35 +325,8 @@ border-radius: 7px;
                 </tbody>
             </table>
         </div>
-            <div class="container-fluid" th:if="${decide} == 'BUYSELL'">
-                <table class="table table-striped tabled-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th>Stock Name</th>
-                        <th>Buy At</th>
-                        <th>Stop Loss</th>
-                        <th>Sell In</th>
-                        <th>Target Price</th>
-                        <th>Created On</th>
-                        <th>Type</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="suggest : ${suggestList}">
-                        <td th:text="${suggest.stockName}">Stock Name</td>
-                        <td th:text="${suggest.buyAt}">Buy At</td>
-                        <td th:text="${suggest.stopLoss}">Stop Loss</td>
-                        <td th:text="${suggest.sellAt}">Sell In</td>
-                        <td th:text="${suggest.targetPrice}">Target Price</td>
-                        <td th:text="${suggest.createdAt}">Created On</td>
-                        <td th:text="${suggest.type}">type</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
-    </div>
-    <div th:if="${ #lists.isEmpty(suggestList)}">
+    <div th:if="${decide} == 'NONE'">
         <div class="container">
             <div class = "error">
             <h3 th:text="${error}"></h3>
@@ -327,6 +341,7 @@ border-radius: 7px;
             </div>
         </div>
     </div>
+</div>
 </div>
 <!-- BEGGING OF RESULT VIEW -->
 </body>
