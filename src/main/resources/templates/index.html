@@ -9,6 +9,20 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>The Stock Look Up</title>
     <script>
+    <!--    Avoids the form submission on refresh-->
+        if ( window.history.replaceState ) {
+            window.history.replaceState( "", "", "/" );
+         }
+<!--        ***-->
+<!-- TO ZOOM OUT IN MOBILE --->
+<!--    function zoomOutMobile() {-->
+<!--        var viewport = document.querySelector('meta[name="viewport"]');-->
+<!--        if ( viewport ) {-->
+<!--                viewport.content = "width=1200";-->
+<!--         }-->
+<!--        }-->
+
+<!--zoomOutMobile();-->
     function post_to_url(path, params, method) {
     method = method || "POST";
 
@@ -218,9 +232,11 @@ background: inherit;
 font-family: Lato;
 font-style: normal;
 width: 100%;
-color: #092879;
 border: none;
 text-align: left;
+letter-spacing: 0.04em;
+color: #DF7B7B;
+text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .sellButton{
 background: inherit;
@@ -230,6 +246,12 @@ width: 100%;
 color: #092879;
 border: none;
 text-align: left;
+letter-spacing: 0.04em;
+color: #DF7B7B;
+text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.active,.sellButton:hover,.buyButton:hover{
+background: #f0f0f5;
 }
 button:focus {
     outline: none;
@@ -277,8 +299,8 @@ button:focus {
 <div class = 'container-fluid'>
 <div class="result">
     <div class = "buy" th:if="${not #lists.isEmpty(buyList)}">
-        <button type="button" class="buyButton" onclick="hidebuytable()"><h4>BUY: </h4></button>
-        <div id = "buycollapse">
+        <button type="button" class="buyButton" onclick="hidebuytable()"><h4>BUY </h4></button>
+        <div id = "buycollapse" style="display:block;">
                 <table class="table table-striped tabled-bordered table-hover">
                     <thead>
                     <tr>
@@ -305,7 +327,7 @@ button:focus {
     </div>
     <div class = "sell" th:if="${not #lists.isEmpty(sellList)}">
         <button type="button" class="sellButton" onclick="hideselltable()"><h4>SELL</h4> </button>
-        <div id ="sellcollapse">
+        <div id ="sellcollapse" style="display:block;">
         <table class="table table-striped tabled-bordered table-hover">
                 <thead>
                 <tr>
@@ -344,5 +366,6 @@ button:focus {
 </div>
 </div>
 <!-- BEGGING OF RESULT VIEW -->
+<br/>
 </body>
 </html>
