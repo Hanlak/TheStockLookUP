@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = {"com.stocklookup"})
 public class TheStockerMainApp {
 
-  public static void main(String[] args) {
-    SpringApplication.run(TheStockerMainApp.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(TheStockerMainApp.class, args);
+    }
 }

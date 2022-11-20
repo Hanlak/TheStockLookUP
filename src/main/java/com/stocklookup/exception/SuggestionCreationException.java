@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class SuggestionCreationException extends RuntimeException {
-  public SuggestionCreationException(String error) {
-    super(error);
-  }
+    public SuggestionCreationException(String error) {
+        super(error);
+    }
 }

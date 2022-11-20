@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-  @GetMapping("/")
-  public String home(Model model) {
-    model.addAttribute("error", "Click below to get All suggestions");
-    model.addAttribute("link", "/v1/thestocker/getter/getallsuggestions");
-    model.addAttribute("home", "home");
-    model.addAttribute("decide","NONE");
-    return "index";
-  }
+    @GetMapping("/")
+    public String home(Model model) {
+        model.addAttribute("error", "Click below to get All suggestions");
+        model.addAttribute("link", "/v1/thestocker/getter/getallsuggestions");
+        model.addAttribute("home", "home");
+        model.addAttribute("decide", "NONE");
+        return "index";
+    }
 
-  @GetMapping("/v1/thestocker/about")
-  public String about() {
-    return "Its an hanlak Product";
-  }
+    @GetMapping("/v1/thestocker/about")
+    public String about() {
+        return "Its an hanlak Product";
+    }
 }
