@@ -17,42 +17,42 @@ import javax.sql.DataSource;
 
 @Configuration
 public class StockerConfiguration {
-  @Bean
-  public BuySellDao buySellDao() {
-    return new BuySellDao();
-  }
+    @Bean
+    public BuySellDao buySellDao() {
+        return new BuySellDao();
+    }
 
-  @Bean
-  public BuySellGetterDao buySellGetterDao() {
-    return new BuySellGetterDao();
-  }
+    @Bean
+    public BuySellGetterDao buySellGetterDao() {
+        return new BuySellGetterDao();
+    }
 
-  @Bean
-  public BuySellUpdateDao buySellUpdateDao() {
-    return new BuySellUpdateDao();
-  }
-// To run in local uncomment the following code::
-//  @Bean
-//  public DataSource dataSource() {
-//    DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//    dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-//    dataSource.setUrl("jdbc:mysql://localhost:3306/thestocker");
-//    dataSource.setUsername("root");
-//    dataSource.setPassword("root");
-//    /**
-//     * To CREATE THE TABLE IF NOT EXISTS AT THE STARTUP OF THE APPLICATION
-//     *
-//     * <p>the script file schema-sql.sql will execute here
-//     */
-//    // SCHEMA INIT
-//    Resource intischema = new ClassPathResource("schema.sql");
-//    DatabasePopulator databasePopulator = new ResourceDatabasePopulator(intischema);
-//    DatabasePopulatorUtils.execute(databasePopulator, dataSource);
-//    return dataSource;
-//  }
-//
-//  @Bean
-//  public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-//    return new JdbcTemplate(dataSource);
-//  }
+    @Bean
+    public BuySellUpdateDao buySellUpdateDao() {
+        return new BuySellUpdateDao();
+    }
+
+    // To run in local uncomment the following code::
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setUrl("jdbc:mysql://localhost:3306/thestocker");
+        dataSource.setUsername("root");
+        dataSource.setPassword("root");
+        /**
+         * To CREATE THE TABLE IF NOT EXISTS AT THE STARTUP OF THE APPLICATION
+         *
+         * <p>the script file schema-sql.sql will execute here
+         */
+        // SCHEMA INIT
+        Resource intischema = new ClassPathResource("schema.sql");
+        DatabasePopulator databasePopulator = new ResourceDatabasePopulator(intischema);
+        DatabasePopulatorUtils.execute(databasePopulator, dataSource);
+        return dataSource;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
 }

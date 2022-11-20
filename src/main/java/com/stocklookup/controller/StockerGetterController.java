@@ -11,98 +11,98 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/v1/thestocker/getter")
 public class StockerGetterController {
 
-  @Autowired BuySellGetterDao buySellGetterDao;
+    @Autowired
+    BuySellGetterDao buySellGetterDao;
 
-  // GET STOCK DETAILS BY NAME AND DATE
-  @PostMapping("/getbynameanddate")
-  public String getBuySellSuggestByNameAndDate(
-      Model model,
-      @RequestParam("stockName") String stockName,
-      @RequestParam("createdAt") String createdAt) {
+    // GET STOCK DETAILS BY NAME AND DATE
+    @PostMapping("/getbynameanddate")
+    public String getBuySellSuggestByNameAndDate(
+            Model model,
+            @RequestParam("stockName") String stockName,
+            @RequestParam("createdAt") String createdAt) {
 
-    // TODO:: check the strings
-    BuySellSuggest buySellSuggest =
-        buySellGetterDao.getBuySellSuggestByNameAndCreateDate(stockName, createdAt);
-    if (buySellSuggest == null) {
-      model.addAttribute(
-          "error",
-          String.format("STOCK:: %s NOT FOUND WITHIN THIS DATE:: %s ", stockName, createdAt));
-      return "index";
+        // TODO:: check the strings
+        BuySellSuggest buySellSuggest =
+                buySellGetterDao.getBuySellSuggestByNameAndCreateDate(stockName, createdAt);
+        if (buySellSuggest == null) {
+            model.addAttribute(
+                    "error",
+                    String.format("STOCK:: %s NOT FOUND WITHIN THIS DATE:: %s ", stockName, createdAt));
+            return "index";
+        }
+        //DECIDES WHETHER IT CONTAINS SELL OR BUY OR BOTH OBJECTS
+        String decidor = BuySellDecidor.buySellDecide(Collections.singletonList(buySellSuggest));
+        //creating a model based on the list
+        model = BuySellDecidor.createModel(model, Collections.singletonList(buySellSuggest), decidor);
+        return "index";
     }
-    //DECIDES WHETHER IT CONTAINS SELL OR BUY OR BOTH OBJECTS
-    String decidor = BuySellDecidor.buySellDecide(Arrays.asList(buySellSuggest));
-    //creating a model based on the list
-    model = BuySellDecidor.createModel(model,Arrays.asList(buySellSuggest),decidor);
-    return "index";
-  }
 
-  // GET STOCK DETAILS BY NAME, DATE AND TYPE
-  @PostMapping("/getbynameanddateandtype")
-  public String getBuySellSuggestByNameDateAndType(
-      Model model,
-      @RequestParam("stockName") String stockName,
-      @RequestParam("createdAt") String createdAt,
-      @RequestParam("type") String type) {
-    BuySellSuggest buySellSuggest =
-        buySellGetterDao.getBuySellSuggestByNameAndCreateDateAndType(stockName, createdAt, type);
-    if (buySellSuggest == null) {
-      model.addAttribute(
-          "error",
-          String.format(
-              "STOCK:: %s NOT FOUND WITHIN THIS DATE %s AND TYPE:: %s",
-              stockName, createdAt, type));
-      return "index";
+    // GET STOCK DETAILS BY NAME, DATE AND TYPE
+    @PostMapping("/getbynameanddateandtype")
+    public String getBuySellSuggestByNameDateAndType(
+            Model model,
+            @RequestParam("stockName") String stockName,
+            @RequestParam("createdAt") String createdAt,
+            @RequestParam("type") String type) {
+        BuySellSuggest buySellSuggest =
+                buySellGetterDao.getBuySellSuggestByNameAndCreateDateAndType(stockName, createdAt, type);
+        if (buySellSuggest == null) {
+            model.addAttribute(
+                    "error",
+                    String.format(
+                            "STOCK:: %s NOT FOUND WITHIN THIS DATE %s AND TYPE:: %s",
+                            stockName, createdAt, type));
+            return "index";
+        }
+        String decidor = BuySellDecidor.buySellDecide(Collections.singletonList(buySellSuggest));
+        model = BuySellDecidor.createModel(model, Collections.singletonList(buySellSuggest), decidor);
+        return "index";
     }
-    String decidor = BuySellDecidor.buySellDecide(Arrays.asList(buySellSuggest));
-    model = BuySellDecidor.createModel(model,Arrays.asList(buySellSuggest),decidor);
-    return "index";
-  }
 
-  // GET ALL STOCKS
-  @GetMapping("/getallsuggestions")
-  public String getALLSuggestion(Model model) {
-    List<BuySellSuggest> suggestList = buySellGetterDao.getAllSuggestion();
-    String decidor = BuySellDecidor.buySellDecide(suggestList);
-    model = BuySellDecidor.createModel(model,suggestList,decidor);
-    if (suggestList == null || suggestList.size()==0)
-      model.addAttribute("error", "SUGGESTION ARE EMPTY. PlEASE ADD SUGGESTIONS BEFORE QUERYING");
-    return "index";
-  }
-
-  // Get ALL Stocks BY Name
-  @PostMapping("/getallsuggestionsbyname")
-  public String getALLSuggestion(Model model, @RequestParam("stockName") String stockname) {
-    List<BuySellSuggest> suggestList = buySellGetterDao.getALLSuggestionByStockName(stockname);
-    if (suggestList == null) {
-      model.addAttribute(
-          "error", String.format("NO SUGGESTIONS FOUND FOR THE STOCK:: %s", stockname));
-      return "index";
+    // GET ALL STOCKS
+    @GetMapping("/getallsuggestions")
+    public String getALLSuggestion(Model model) {
+        List<BuySellSuggest> suggestList = buySellGetterDao.getAllSuggestion();
+        String decidor = BuySellDecidor.buySellDecide(suggestList);
+        model = BuySellDecidor.createModel(model, suggestList, decidor);
+        if (suggestList == null || suggestList.size() == 0)
+            model.addAttribute("error", "SUGGESTION ARE EMPTY. PlEASE ADD SUGGESTIONS BEFORE QUERYING");
+        return "index";
     }
-    String decidor = BuySellDecidor.buySellDecide(suggestList);
-    model = BuySellDecidor.createModel(model,suggestList,decidor);
-    return "index";
-  }
 
-  // Get ALL STOCKS BY TYPE
-  @PostMapping("/getallsuggesstionsbytype")
-  public String getALLSuggestionByType(Model model, @RequestParam("type") String type) {
-    List<BuySellSuggest> suggestList = buySellGetterDao.getAllSuggestionsByType(type);
-    if (suggestList == null) {
-      model.addAttribute(
-          "error", String.format("NO SUGGESTIONS FOUND FOR THE SUGGESTION TYPE:: %s", type));
-      return "index";
+    // Get ALL Stocks BY Name
+    @PostMapping("/getallsuggestionsbyname")
+    public String getALLSuggestion(Model model, @RequestParam("stockName") String stockname) {
+        List<BuySellSuggest> suggestList = buySellGetterDao.getALLSuggestionByStockName(stockname);
+        if (suggestList == null) {
+            model.addAttribute(
+                    "error", String.format("NO SUGGESTIONS FOUND FOR THE STOCK:: %s", stockname));
+            return "index";
+        }
+        String decidor = BuySellDecidor.buySellDecide(suggestList);
+        model = BuySellDecidor.createModel(model, suggestList, decidor);
+        return "index";
     }
-    String decidor = BuySellDecidor.buySellDecide(suggestList);
-    model = BuySellDecidor.createModel(model,suggestList,decidor);
-    return "index";
-  }
+
+    // Get ALL STOCKS BY TYPE
+    @PostMapping("/getallsuggesstionsbytype")
+    public String getALLSuggestionByType(Model model, @RequestParam("type") String type) {
+        List<BuySellSuggest> suggestList = buySellGetterDao.getAllSuggestionsByType(type);
+        if (suggestList == null) {
+            model.addAttribute(
+                    "error", String.format("NO SUGGESTIONS FOUND FOR THE SUGGESTION TYPE:: %s", type));
+            return "index";
+        }
+        String decidor = BuySellDecidor.buySellDecide(suggestList);
+        model = BuySellDecidor.createModel(model, suggestList, decidor);
+        return "index";
+    }
 }

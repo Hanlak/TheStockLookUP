@@ -16,17 +16,18 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/v1/thestocker/updater")
 public class StockerUpdateController {
-  @Autowired BuySellUpdateDao buySellUpdateDao;
+    @Autowired
+    BuySellUpdateDao buySellUpdateDao;
 
-  @PostMapping("/updateBuySellSuggestion")
-  public int updateSellSuggestion(@Valid @RequestBody BuySellSuggest buySellSuggest) {
-    // TODO:: DISABLE STOCK NAME CHANGE AND DATE AND TYPE CHANGE IN THE EDIT PAGE
-    buySellSuggest = SuggestionValidator.suggestionValidator(buySellSuggest);
-    if (buySellSuggest == null)
-      throw new TypeValidationException("INVALID SUGGESTION TYPE. PLEASE USE BUY OR SELL");
+    @PostMapping("/updateBuySellSuggestion")
+    public int updateSellSuggestion(@Valid @RequestBody BuySellSuggest buySellSuggest) {
+        // TODO:: DISABLE STOCK NAME CHANGE AND DATE AND TYPE CHANGE IN THE EDIT PAGE
+        buySellSuggest = SuggestionValidator.suggestionValidator(buySellSuggest);
+        if (buySellSuggest == null)
+            throw new TypeValidationException("INVALID SUGGESTION TYPE. PLEASE USE BUY OR SELL");
 
-    boolean check = buySellUpdateDao.updateBuySellSuggestByNameAndCreateDate(buySellSuggest);
+        boolean check = buySellUpdateDao.updateBuySellSuggestByNameAndCreateDate(buySellSuggest);
 
-    return check ? HttpStatus.OK.value() : HttpStatus.INTERNAL_SERVER_ERROR.value();
-  }
+        return check ? HttpStatus.OK.value() : HttpStatus.INTERNAL_SERVER_ERROR.value();
+    }
 }

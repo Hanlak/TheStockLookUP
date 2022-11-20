@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class NoResultSetException extends RuntimeException {
-  public NoResultSetException(String error) {
-    super(error);
-  }
+    public NoResultSetException(String error) {
+        super(error);
+    }
 }
